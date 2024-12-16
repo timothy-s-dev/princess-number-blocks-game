@@ -1,8 +1,7 @@
 # TODO
 
-- [ ] Add inspector
-  - Default hidden
-  - Toggle action
+- [x] Add inspector
+  - [x] Allow toggle, default hidden
 - [ ] Player
   - [ ] Movement
   - [ ] Basic Animation

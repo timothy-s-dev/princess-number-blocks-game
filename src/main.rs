@@ -1,8 +1,15 @@
+use bevy::input::common_conditions::input_toggle_active;
 use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
+use bevy_inspector_egui::quick::WorldInspectorPlugin;
+use leafwing_input_manager::prelude::InputManagerPlugin;
 
 mod scenes;
+mod plugins;
+
 use scenes::*;
+use crate::plugins::player::components::player::Action;
+use crate::plugins::player::player_plugin;
 
 const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 
@@ -12,7 +19,14 @@ fn main() {
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
         .init_state::<GameState>()
         .add_systems(Startup, setup)
+        .add_plugins(WorldInspectorPlugin::new().run_if(input_toggle_active(false, KeyCode::Backquote)))
+        .add_plugins(InputManagerPlugin::<Action>::default())
+        // Each scene has a plugin that handles setup and teardown
         .add_plugins((splash::splash_plugin, menu::menu_plugin, game::game_plugin))
+        // Other plugins (from the plugins directory) also need to be included here
+        // If they should only run in certain states that should be configured in the plugin
+        // See the player_plugin for an example of this
+        .add_plugins(player_plugin)
         .run();
 }
 
