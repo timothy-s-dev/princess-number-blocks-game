@@ -1,0 +1,23 @@
+# TODO
+
+- [ ] Add inspector
+  - Default hidden
+  - Toggle action
+- [ ] Player
+  - [ ] Movement
+  - [ ] Basic Animation
+- [ ] Obstacles
+- [ ] Chests
+  - [ ] Interactable
+  - [ ] Number Label
+- [ ] Settings
+  - [ ] Auto-Open Chests On Proximity/Collision
+  - [ ] Chest Positions (Grid/Scattered, Fixed/Random)
+  - [ ] Obstacles (Off, Fixed, Random)
+- [ ] Chest Interaction
+  - [ ] Chest Animation
+  - [ ] Player Animation?
+- [ ] Challenge
+  - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
+  - [ ] Display/HUD
+    - [ ] Complete and reset when correct chest is opened
