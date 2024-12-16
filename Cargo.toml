@@ -1,0 +1,24 @@
+[package]
+name = "princess-number-blocks-game"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+bevy = { version = "0.15", features = ["dynamic_linking"] }
+bevy-inspector-egui = "0.28.0"
+leafwing-input-manager = {  version = "0.16.0", features = ["egui", "timing"] }
+
+# Enable max optimizations for dependencies, but not for our code:
+[profile.dev.package."*"]
+opt-level = 3
+
+# Enable only a small amount of optimization in debug mode
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+lto = true
+opt-level = 3
+codegen-units = 1
+incremental = false
+debug = false
