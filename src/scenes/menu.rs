@@ -1,6 +1,6 @@
-use bevy::{app::AppExit, color::palettes::css::CRIMSON, prelude::*};
-use crate::{TEXT_COLOR};
 use super::{despawn_screen, GameState};
+use crate::TEXT_COLOR;
+use bevy::{app::AppExit, color::palettes::css::CRIMSON, prelude::*};
 
 // This plugin manages the menu, with 2 different screens:
 // - a main menu with "Play", "Settings", "Quit"
@@ -17,7 +17,10 @@ pub fn menu_plugin(app: &mut App) {
         .add_systems(OnExit(MenuState::Main), despawn_screen::<OnMainMenuScreen>)
         // Systems to handle the settings menu screen
         .add_systems(OnEnter(MenuState::Settings), settings_menu_setup)
-        .add_systems(OnExit(MenuState::Settings), despawn_screen::<OnSettingsMenuScreen>)
+        .add_systems(
+            OnExit(MenuState::Settings),
+            despawn_screen::<OnSettingsMenuScreen>,
+        )
         // Common systems to all screens that handles buttons behavior
         .add_systems(
             Update,
@@ -60,13 +63,15 @@ enum MenuButtonAction {
     Quit,
 }
 
-type ButtonQuery<'a> = (&'a Interaction, &'a mut BackgroundColor, Option<&'a SelectedOption>);
+type ButtonQuery<'a> = (
+    &'a Interaction,
+    &'a mut BackgroundColor,
+    Option<&'a SelectedOption>,
+);
 type ButtonFilter = (Changed<Interaction>, With<Button>);
 
 // This system handles changing all buttons color based on mouse interaction
-fn button_system(
-    mut interaction_query: Query<ButtonQuery, ButtonFilter>,
-) {
+fn button_system(mut interaction_query: Query<ButtonQuery, ButtonFilter>) {
     for (interaction, mut background_color, selected) in &mut interaction_query {
         *background_color = match (*interaction, selected) {
             (Interaction::Pressed, _) | (Interaction::None, Some(_)) => PRESSED_BUTTON.into(),
@@ -224,9 +229,7 @@ fn settings_menu_setup(mut commands: Commands) {
                 .with_children(|parent| {
                     // This loop will eventually have multiple elements, ignore warning for now
                     #[allow(clippy::single_element_loop)]
-                    for (action, text) in [
-                        (MenuButtonAction::BackToMainMenu, "Back"),
-                    ] {
+                    for (action, text) in [(MenuButtonAction::BackToMainMenu, "Back")] {
                         parent
                             .spawn((
                                 Button,

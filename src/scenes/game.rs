@@ -1,7 +1,6 @@
-use bevy::prelude::*;
-use crate::plugins::player::components::player::{spawn_player};
 use super::{despawn_screen, GameState};
-
+use crate::plugins::player::components::player::spawn_player;
+use bevy::prelude::*;
 
 pub fn game_plugin(app: &mut App) {
     app.add_systems(OnEnter(GameState::Game), setup)
@@ -16,9 +15,10 @@ struct OnGameScreen;
 fn setup(
     mut commands: Commands,
     asset_server: Res<AssetServer>,
-    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>
+    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
 ) {
-    commands.spawn(OnGameScreen)
+    commands
+        .spawn(OnGameScreen)
         .insert(Transform::default())
         .insert(InheritedVisibility::default())
         .with_children(|parent| {

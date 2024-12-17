@@ -1,12 +1,20 @@
+use crate::plugins::player::components::player::{Action, Facing, Player, PlayerState};
 use bevy::prelude::{Query, Res, Time, Transform, With};
 use leafwing_input_manager::prelude::ActionState;
-use crate::plugins::player::components::player::{Action, Facing, Player, PlayerState};
 
 const MOVE_SPEED: f32 = 100.;
 
 pub fn player_movement_system(
-    mut query: Query<(&ActionState<Action>, &mut Transform, &mut PlayerState, &mut Facing), With<Player>>,
-    time: Res<Time>
+    mut query: Query<
+        (
+            &ActionState<Action>,
+            &mut Transform,
+            &mut PlayerState,
+            &mut Facing,
+        ),
+        With<Player>,
+    >,
+    time: Res<Time>,
 ) {
     let (action_state, mut transform, mut player_state, mut facing) = query.single_mut();
     let move_vec = action_state.axis_pair(&Action::Move);
@@ -30,10 +38,16 @@ pub fn player_movement_system(
         // Update facing based on directional input
         // If both are the same magnitude (exact diagonal) default to horizontal facings
         let new_facing = if move_vec.y.abs() > move_vec.x.abs() {
-            if move_vec.y < 0. { Facing::South }
-            else { Facing::North }
-        } else if move_vec.x < 0. { Facing::West }
-        else { Facing::East };
+            if move_vec.y < 0. {
+                Facing::South
+            } else {
+                Facing::North
+            }
+        } else if move_vec.x < 0. {
+            Facing::West
+        } else {
+            Facing::East
+        };
 
         if *facing != new_facing {
             *facing = new_facing;

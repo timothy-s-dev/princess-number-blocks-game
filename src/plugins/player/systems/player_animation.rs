@@ -1,11 +1,10 @@
-use std::time::Duration;
-use bevy::ecs::query::QueryData;
-use bevy::prelude::{Changed, Or, Query, Sprite, Timer, TimerMode, With};
 use crate::animations::animation::Animation;
 use crate::animations::player_animations;
 use crate::plugins::player::components::animation_timer::AnimationTimer;
 use crate::plugins::player::components::player::{Facing, Player, PlayerState};
-
+use bevy::ecs::query::QueryData;
+use bevy::prelude::{Changed, Or, Query, Sprite, Timer, TimerMode, With};
+use std::time::Duration;
 
 #[derive(QueryData)]
 #[query_data(mutable)]
@@ -17,17 +16,10 @@ pub struct PlayerAnimationChangeQuery {
     animation: &'static mut Animation,
 }
 
-type PlayerAnimationChangeFilter = (
-    With<Player>,
-    Or<(
-        Changed<PlayerState>,
-        Changed<Facing>
-    )>
-);
-
+type PlayerAnimationChangeFilter = (With<Player>, Or<(Changed<PlayerState>, Changed<Facing>)>);
 
 pub fn player_animation_change_system(
-    mut query: Query<PlayerAnimationChangeQuery, PlayerAnimationChangeFilter>
+    mut query: Query<PlayerAnimationChangeQuery, PlayerAnimationChangeFilter>,
 ) {
     if let Ok(mut query_data) = query.get_single_mut() {
         let new_animation = match (query_data.state, query_data.facing) {
@@ -48,7 +40,7 @@ fn set_animation(new_animation: Animation, query_data: &mut PlayerAnimationChang
     *query_data.animation = new_animation;
     query_data.animation_timer.timer = Timer::new(
         Duration::from_millis(1000 / query_data.animation.framerate),
-        TimerMode::Repeating
+        TimerMode::Repeating,
     );
     if let Some(atlas) = &mut query_data.sprite.texture_atlas {
         atlas.index = query_data.animation.start_index;

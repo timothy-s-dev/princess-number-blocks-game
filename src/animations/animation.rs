@@ -21,10 +21,20 @@ impl Default for Animation {
 
 impl Animation {
     pub const fn from_single_frame(index: usize) -> Self {
-        Self { start_index: index, end_index: index, framerate: 15, is_looping: false }
+        Self {
+            start_index: index,
+            end_index: index,
+            framerate: 15,
+            is_looping: false,
+        }
     }
 
     pub const fn from_range(start_index: usize, end_index: usize) -> Self {
-        Self { start_index, end_index, framerate: 15, is_looping: true }
+        Self {
+            start_index,
+            end_index,
+            framerate: 15,
+            is_looping: true,
+        }
     }
 }

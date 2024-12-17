@@ -1,8 +1,8 @@
 use bevy::prelude::{Commands, Component, DespawnRecursiveExt, Entity, Query, States, With};
 
-pub mod splash;
 pub mod game;
 pub mod menu;
+pub mod splash;
 
 // Enum that will be used as a global state for the game
 #[derive(Clone, Copy, Default, Eq, PartialEq, Debug, Hash, States)]
