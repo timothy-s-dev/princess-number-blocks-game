@@ -15,15 +15,15 @@ struct OnGameScreen;
 
 fn setup(
     mut commands: Commands,
-    asset_server: Res<AssetServer>
+    asset_server: Res<AssetServer>,
+    texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>
 ) {
-    commands.spawn(OnGameScreen).with_children(|parent| {
-        parent.spawn((
-            Sprite::from_image(asset_server.load("splash.png")),
-            Transform::from_xyz(0., 0., 0.),
-        ));
-        spawn_player(parent);
-    });
+    commands.spawn(OnGameScreen)
+        .insert(Transform::default())
+        .insert(InheritedVisibility::default())
+        .with_children(|parent| {
+            spawn_player(parent, asset_server, texture_atlas_layouts);
+        });
 }
 
 // Tick the timer, and change state when finished
