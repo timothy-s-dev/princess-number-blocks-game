@@ -1,5 +1,8 @@
 use crate::animations::animation::Animation;
 
+// This file contains the definitions for the various animations used by the player entity.
+// The frame indexes here map onto the `princess.png` sprite sheet.
+
 pub const IDLE_EAST: Animation = Animation::from_single_frame(32);
 pub const IDLE_NORTH: Animation = Animation::from_single_frame(33);
 pub const IDLE_WEST: Animation = Animation::from_single_frame(34);

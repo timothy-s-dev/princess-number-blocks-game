@@ -1,5 +1,14 @@
 use bevy::prelude::Component;
 
+/// Represents an animation on a sprite sheet.
+///
+/// Indexes start at 0 at the top left, and increase left-right, then top-bottom in the grid.
+///
+/// framerate is in frames-per-second and defaults to 15
+///
+/// is_looping determines the behavior when an animation tick would increment the index past
+/// `end_index`. If false it will stop the animation at `end_index`, if true it loops back to
+/// `start_index`
 #[derive(Component)]
 pub struct Animation {
     pub start_index: usize,
@@ -20,6 +29,7 @@ impl Default for Animation {
 }
 
 impl Animation {
+    /// Returns an Animation struct for a single-frame "animation", non-looping
     pub const fn from_single_frame(index: usize) -> Self {
         Self {
             start_index: index,
@@ -29,6 +39,7 @@ impl Animation {
         }
     }
 
+    /// Returns a looping Animation struct for a range of frames using the default framerate (15)
     pub const fn from_range(start_index: usize, end_index: usize) -> Self {
         Self {
             start_index,

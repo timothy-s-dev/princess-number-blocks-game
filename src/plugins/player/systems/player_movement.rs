@@ -1,19 +1,22 @@
-use crate::plugins::player::components::player::{Action, Facing, Player, PlayerState};
+use crate::input_map::Action;
+use crate::plugins::player::components::player::{Facing, Player, PlayerState};
 use bevy::prelude::{Query, Res, Time, Transform, With};
 use leafwing_input_manager::prelude::ActionState;
 
 const MOVE_SPEED: f32 = 100.;
 
+type PlayerMovementQuery<'a> = (
+    &'a ActionState<Action>,
+    &'a mut Transform,
+    &'a mut PlayerState,
+    &'a mut Facing,
+);
+
+/// This system uses the [ActionState] component from the player entity to update its state,
+/// facing, and position. The key bindings are configured in
+/// [get_input_map](crate::plugins::player::components::player::get_input_map).
 pub fn player_movement_system(
-    mut query: Query<
-        (
-            &ActionState<Action>,
-            &mut Transform,
-            &mut PlayerState,
-            &mut Facing,
-        ),
-        With<Player>,
-    >,
+    mut query: Query<PlayerMovementQuery, With<Player>>,
     time: Res<Time>,
 ) {
     let (action_state, mut transform, mut player_state, mut facing) = query.single_mut();

@@ -5,11 +5,12 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use leafwing_input_manager::prelude::InputManagerPlugin;
 
 pub mod animations;
+mod input_map;
 mod plugins;
 mod scenes;
 
+use crate::input_map::Action;
 use crate::plugins::animation::animation_plugin;
-use crate::plugins::player::components::player::Action;
 use crate::plugins::player::player_plugin;
 use scenes::*;
 

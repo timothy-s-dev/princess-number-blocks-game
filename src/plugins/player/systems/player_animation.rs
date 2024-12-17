@@ -18,6 +18,9 @@ pub struct PlayerAnimationChangeQuery {
 
 type PlayerAnimationChangeFilter = (With<Player>, Or<(Changed<PlayerState>, Changed<Facing>)>);
 
+/// This system watches for changes in the [PlayerState] and [Facing] of the player entity.
+/// Any time such a change is detected, it replaces the [Animation] component with a new one,
+/// based on the state and facing.
 pub fn player_animation_change_system(
     mut query: Query<PlayerAnimationChangeQuery, PlayerAnimationChangeFilter>,
 ) {
