@@ -3,7 +3,7 @@ use leafwing_input_manager::{Actionlike, InputManagerBundle};
 use leafwing_input_manager::input_map::InputMap;
 use leafwing_input_manager::prelude::VirtualDPad;
 use crate::plugins::player::components::animation_timer::AnimationTimer;
-use crate::plugins::player::systems::player_animation::PlayerAnimation;
+use crate::animations::animation::Animation;
 
 
 #[derive(Actionlike, PartialEq, Eq, Clone, Copy, Hash, Debug, Reflect)]
@@ -13,16 +13,14 @@ pub enum Action {
     Interact,
 }
 
-#[derive(Component, Default, Eq, PartialEq)]
+#[derive(Component, Debug, Default, Eq, PartialEq)]
 pub enum PlayerState {
     #[default]
     Idle,
     Walking,
-    Interacting,
-    Displaying
 }
 
-#[derive(Component, Default, Eq, PartialEq)]
+#[derive(Component, Debug, Default, Eq, PartialEq)]
 pub enum Facing {
     North,
     #[default]
@@ -32,7 +30,7 @@ pub enum Facing {
 }
 
 #[derive(Component)]
-#[require(PlayerState, Facing, AnimationTimer, PlayerAnimation)]
+#[require(PlayerState, Facing, AnimationTimer, Animation)]
 pub struct Player;
 
 pub fn spawn_player(

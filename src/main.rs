@@ -6,10 +6,12 @@ use leafwing_input_manager::prelude::InputManagerPlugin;
 
 mod scenes;
 mod plugins;
+pub mod animations;
 
 use scenes::*;
 use crate::plugins::player::components::player::Action;
 use crate::plugins::player::player_plugin;
+use crate::plugins::animation::animation_plugin;
 
 const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 
@@ -26,7 +28,7 @@ fn main() {
         // Other plugins (from the plugins directory) also need to be included here
         // If they should only run in certain states that should be configured in the plugin
         // See the player_plugin for an example of this
-        .add_plugins(player_plugin)
+        .add_plugins((animation_plugin, player_plugin))
         .run();
 }
 

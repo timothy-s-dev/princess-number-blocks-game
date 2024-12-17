@@ -60,12 +60,12 @@ enum MenuButtonAction {
     Quit,
 }
 
+type ButtonQuery<'a> = (&'a Interaction, &'a mut BackgroundColor, Option<&'a SelectedOption>);
+type ButtonFilter = (Changed<Interaction>, With<Button>);
+
 // This system handles changing all buttons color based on mouse interaction
 fn button_system(
-    mut interaction_query: Query<
-        (&Interaction, &mut BackgroundColor, Option<&SelectedOption>),
-        (Changed<Interaction>, With<Button>),
-    >,
+    mut interaction_query: Query<ButtonQuery, ButtonFilter>,
 ) {
     for (interaction, mut background_color, selected) in &mut interaction_query {
         *background_color = match (*interaction, selected) {
@@ -222,6 +222,8 @@ fn settings_menu_setup(mut commands: Commands) {
                     BackgroundColor(CRIMSON.into()),
                 ))
                 .with_children(|parent| {
+                    // This loop will eventually have multiple elements, ignore warning for now
+                    #[allow(clippy::single_element_loop)]
                     for (action, text) in [
                         (MenuButtonAction::BackToMainMenu, "Back"),
                     ] {
@@ -240,11 +242,11 @@ fn settings_menu_setup(mut commands: Commands) {
         });
 }
 
+type MenuQuery<'a> = (&'a Interaction, &'a MenuButtonAction);
+type MenuFilter = (Changed<Interaction>, With<Button>);
+
 fn menu_action(
-    interaction_query: Query<
-        (&Interaction, &MenuButtonAction),
-        (Changed<Interaction>, With<Button>),
-    >,
+    interaction_query: Query<MenuQuery, MenuFilter>,
     mut app_exit_events: EventWriter<AppExit>,
     mut menu_state: ResMut<NextState<MenuState>>,
     mut game_state: ResMut<NextState<GameState>>,

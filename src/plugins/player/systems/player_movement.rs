@@ -1,4 +1,3 @@
-use std::cmp::PartialEq;
 use bevy::prelude::{Query, Res, Time, Transform, With};
 use leafwing_input_manager::prelude::ActionState;
 use crate::plugins::player::components::player::{Action, Facing, Player, PlayerState};
@@ -31,12 +30,11 @@ pub fn player_movement_system(
         // Update facing based on directional input
         // If both are the same magnitude (exact diagonal) default to horizontal facings
         let new_facing = if move_vec.y.abs() > move_vec.x.abs() {
-            if move_vec.y < 0. { Facing::North }
-            else { Facing::South }
-        } else {
-            if move_vec.x < 0. { Facing::West }
-            else { Facing::East }
-        };
+            if move_vec.y < 0. { Facing::South }
+            else { Facing::North }
+        } else if move_vec.x < 0. { Facing::West }
+        else { Facing::East };
+
         if *facing != new_facing {
             *facing = new_facing;
         }
