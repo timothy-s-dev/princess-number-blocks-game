@@ -5,7 +5,7 @@
 - [x] Player
     - [x] Movement
     - [x] Basic Animation
-- [ ] Obstacles
+- [x] Obstacles
 - [ ] Chests
     - [ ] Interactable
     - [ ] Number Label
@@ -20,3 +20,8 @@
     - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD
         - [ ] Complete and reset when correct chest is opened
+
+# Credits
+
+Princess Sprites: https://www.deviantart.com/diarandor/gallery
+Rock Sprite: https://opengameart.org/content/rock-pile

@@ -4,7 +4,8 @@ use bevy::render::camera::ScalingMode;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use leafwing_input_manager::prelude::InputManagerPlugin;
 
-pub mod animations;
+mod animations;
+mod common_components;
 mod input_map;
 mod plugins;
 mod scenes;
