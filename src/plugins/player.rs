@@ -3,16 +3,20 @@ use crate::plugins::player::components::player::Player;
 use crate::plugins::player::systems::player_animation::player_animation_change_system;
 use crate::plugins::player::systems::player_movement::player_movement_system;
 use crate::scenes::GameState;
-use bevy::asset::{AssetServer, Assets};
 use bevy::math::{UVec2, Vec2};
 use bevy::prelude::{
-    default, in_state, App, ChildBuild, ChildBuilder, IntoSystemConfigs, Res, ResMut, Sprite,
+    default, in_state, App, ChildBuild, ChildBuilder, Handle, Image, IntoSystemConfigs, Sprite,
     TextureAtlas, TextureAtlasLayout, Update,
 };
 use leafwing_input_manager::InputManagerBundle;
 
 pub mod components;
 pub mod systems;
+
+pub const PLAYER_SPRITE_SHEET: &str = "princess.png";
+pub fn get_player_texture_atlas_layout() -> TextureAtlasLayout {
+    TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 9, None, None)
+}
 
 pub fn player_plugin(app: &mut App) {
     app.add_systems(
@@ -32,13 +36,9 @@ pub fn player_plugin(app: &mut App) {
 /// Default implementation and simply `require`d by the Player component.
 pub fn spawn_player(
     parent: &mut ChildBuilder,
-    asset_server: Res<AssetServer>,
-    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    texture: Handle<Image>,
+    texture_atlas_layout: Handle<TextureAtlasLayout>,
 ) {
-    let texture = asset_server.load("princess.png");
-    let layout = TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 9, None, None);
-    let texture_atlas_layout = texture_atlas_layouts.add(layout);
-
     parent
         .spawn(InputManagerBundle::with_map(get_input_map()))
         .insert(Player)

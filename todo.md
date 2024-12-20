@@ -6,7 +6,7 @@
     - [x] Movement
     - [x] Basic Animation
 - [x] Obstacles
-- [ ] Chests
+- [x] Chests
     - [ ] Interactable
     - [ ] Number Label
 - [ ] Settings
@@ -25,3 +25,4 @@
 
 Princess Sprites: https://www.deviantart.com/diarandor/gallery
 Rock Sprite: https://opengameart.org/content/rock-pile
+Chest: https://admurin.itch.io/free-chest-animations

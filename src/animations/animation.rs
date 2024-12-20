@@ -15,6 +15,7 @@ pub struct Animation {
     pub end_index: usize,
     pub framerate: u64,
     pub is_looping: bool,
+    pub reverse: bool,
 }
 
 impl Default for Animation {
@@ -24,6 +25,7 @@ impl Default for Animation {
             end_index: 0,
             framerate: 15,
             is_looping: true,
+            reverse: false,
         }
     }
 }
@@ -36,6 +38,7 @@ impl Animation {
             end_index: index,
             framerate: 15,
             is_looping: false,
+            reverse: false,
         }
     }
 
@@ -46,6 +49,7 @@ impl Animation {
             end_index,
             framerate: 15,
             is_looping: true,
+            reverse: end_index < start_index,
         }
     }
 }

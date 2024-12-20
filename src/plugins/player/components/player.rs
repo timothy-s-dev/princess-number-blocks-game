@@ -1,5 +1,5 @@
 use crate::animations::animation::Animation;
-use crate::plugins::player::components::animation_timer::AnimationTimer;
+use crate::common_components::animation_timer::AnimationTimer;
 use bevy::prelude::Component;
 
 #[derive(Component, Debug, Default, Eq, PartialEq)]

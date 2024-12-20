@@ -1,5 +1,5 @@
 use crate::animations::animation::Animation;
-use crate::plugins::player::components::animation_timer::AnimationTimer;
+use crate::common_components::animation_timer::AnimationTimer;
 use bevy::app::{App, Update};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{Query, Res, Sprite, Time};
@@ -27,8 +27,10 @@ fn animation_tick_system(mut query: Query<AnimationTickQuery>, time: Res<Time>) 
         query_data.animation_timer.timer.tick(time.delta());
         if query_data.animation_timer.timer.finished() {
             if let Some(atlas) = &mut query_data.sprite.texture_atlas {
-                if atlas.index < query_data.animation.end_index {
+                if atlas.index < query_data.animation.end_index && !query_data.animation.reverse {
                     atlas.index += 1;
+                } else if atlas.index > 0 && query_data.animation.reverse {
+                    atlas.index -= 1;
                 } else if query_data.animation.is_looping {
                     atlas.index = query_data.animation.start_index;
                 }
