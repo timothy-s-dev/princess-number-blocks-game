@@ -25,7 +25,7 @@
     - [ ] Background Music
     - [ ] Sound Effects
 - Known Issues
-    - [ ] Numberblocks are child'd to the scene entity, and may not be removed
+    - [ ] Numberblocks are not child'd to the scene entity, and may not be removed
 
 # Credits
 
