@@ -52,4 +52,15 @@ impl Animation {
             reverse: end_index < start_index,
         }
     }
+
+    /// Returns a non-looping Animation struct for a range of frames using the default framerate (15)
+    pub const fn from_range_once(start_index: usize, end_index: usize) -> Self {
+        Self {
+            start_index,
+            end_index,
+            framerate: 15,
+            is_looping: false,
+            reverse: end_index < start_index,
+        }
+    }
 }

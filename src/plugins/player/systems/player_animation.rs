@@ -30,10 +30,21 @@ pub fn player_animation_change_system(
             (PlayerState::Idle, Facing::South) => player_animations::IDLE_SOUTH,
             (PlayerState::Idle, Facing::East) => player_animations::IDLE_EAST,
             (PlayerState::Idle, Facing::West) => player_animations::IDLE_WEST,
+
             (PlayerState::Walking, Facing::North) => player_animations::WALK_NORTH,
             (PlayerState::Walking, Facing::South) => player_animations::WALK_SOUTH,
             (PlayerState::Walking, Facing::East) => player_animations::WALK_EAST,
             (PlayerState::Walking, Facing::West) => player_animations::WALK_WEST,
+
+            (PlayerState::Interacting, Facing::North) => player_animations::INTERACT_NORTH,
+            (PlayerState::Interacting, Facing::South) => player_animations::INTERACT_SOUTH,
+            (PlayerState::Interacting, Facing::East) => player_animations::INTERACT_EAST,
+            (PlayerState::Interacting, Facing::West) => player_animations::INTERACT_WEST,
+
+            (PlayerState::Display, Facing::North) => player_animations::DISPLAY_NORTH,
+            (PlayerState::Display, Facing::South) => player_animations::DISPLAY_SOUTH,
+            (PlayerState::Display, Facing::East) => player_animations::DISPLAY_EAST,
+            (PlayerState::Display, Facing::West) => player_animations::DISPLAY_WEST,
         };
         set_animation(new_animation, &mut query_data);
     }

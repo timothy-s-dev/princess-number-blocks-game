@@ -7,15 +7,16 @@
     - [x] Basic Animation
 - [x] Obstacles
 - [x] Chests
-    - [ ] Interactable
-    - [ ] Number Label
+    - [x] Interactable
+    - [ ] Number Label?
 - [ ] Settings
     - [ ] Auto-Open Chests On Proximity/Collision
     - [ ] Chest Positions (Grid/Scattered, Fixed/Random)
     - [ ] Obstacles (Off, Fixed, Random)
 - [ ] Chest Interaction
-    - [ ] Chest Animation
-    - [ ] Player Animation?
+    - [x] Chest Animation
+    - [x] Player Animation
+    - [ ] Display Contents
 - [ ] Challenge
     - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD

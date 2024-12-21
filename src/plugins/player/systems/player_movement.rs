@@ -28,6 +28,11 @@ pub fn player_movement_system(
 ) {
     let (action_state, mut transform, mut player_state, mut facing, sprite) = query.single_mut();
 
+    // Movement can only interrupt the idle and walking states, return early otherwise
+    if *player_state != PlayerState::Walking && *player_state != PlayerState::Idle {
+        return;
+    }
+
     let move_vec = action_state.axis_pair(&Action::Move);
     let is_moving = move_vec.length_squared() > 0.;
 
@@ -71,19 +76,7 @@ pub fn player_movement_system(
         }
 
         // Update facing based on directional input
-        // If both are the same magnitude (exact diagonal) default to horizontal facings
-        let new_facing = if move_vec.y.abs() > move_vec.x.abs() {
-            if move_vec.y < 0. {
-                Facing::South
-            } else {
-                Facing::North
-            }
-        } else if move_vec.x < 0. {
-            Facing::West
-        } else {
-            Facing::East
-        };
-
+        let new_facing = Facing::from_vec2(move_vec);
         if *facing != new_facing {
             *facing = new_facing;
         }

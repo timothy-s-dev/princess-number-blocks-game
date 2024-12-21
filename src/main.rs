@@ -1,4 +1,5 @@
 use bevy::input::common_conditions::input_toggle_active;
+use bevy::log::LogPlugin;
 use bevy::prelude::*;
 use bevy::render::camera::ScalingMode;
 use bevy_inspector_egui::quick::WorldInspectorPlugin;
@@ -12,6 +13,7 @@ mod scenes;
 
 use crate::input_map::Action;
 use crate::plugins::animation::animation_plugin;
+use crate::plugins::chest::chest_plugin;
 use crate::plugins::player::player_plugin;
 use scenes::*;
 
@@ -19,7 +21,11 @@ const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins)
+        .add_plugins(DefaultPlugins.set(LogPlugin {
+            filter: "info,wgpu_core=warn,wgpu_hal=warn,princess_number_blocks_game=debug".into(),
+            level: bevy::log::Level::DEBUG,
+            custom_layer: |_| None,
+        }))
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
         .init_state::<GameState>()
         .add_systems(Startup, setup)
@@ -32,7 +38,7 @@ fn main() {
         // Other plugins (from the plugins directory) also need to be included here
         // If they should only run in certain states that should be configured in the plugin
         // See the player_plugin for an example of this
-        .add_plugins((animation_plugin, player_plugin))
+        .add_plugins((animation_plugin, player_plugin, chest_plugin))
         .run();
 }
 

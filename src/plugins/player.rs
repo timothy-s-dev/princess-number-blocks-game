@@ -1,6 +1,8 @@
 use crate::input_map::get_input_map;
 use crate::plugins::player::components::player::Player;
 use crate::plugins::player::systems::player_animation::player_animation_change_system;
+use crate::plugins::player::systems::player_display::player_display_system;
+use crate::plugins::player::systems::player_interaction::player_interaction_system;
 use crate::plugins::player::systems::player_movement::player_movement_system;
 use crate::scenes::GameState;
 use bevy::math::{UVec2, Vec2};
@@ -24,6 +26,8 @@ pub fn player_plugin(app: &mut App) {
         (
             player_movement_system.run_if(in_state(GameState::Game)),
             player_animation_change_system.run_if(in_state(GameState::Game)),
+            player_interaction_system.run_if(in_state(GameState::Game)),
+            player_display_system.run_if(in_state(GameState::Game)),
         ),
     );
 }
