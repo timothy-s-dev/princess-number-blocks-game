@@ -18,14 +18,15 @@
     - [x] Player Animation
     - [x] Display Contents
 - [ ] Challenge
-    - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
+    - [x] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD
-        - [ ] Complete and reset when correct chest is opened
+    - [x] Complete and reset when correct chest is opened
 - [x] Audio
     - [x] Background Music
     - [x] Sound Effects
 - Known Issues
     - [ ] Numberblocks are not child'd to the scene entity, and may not be removed
+- [ ] Android Build
 
 # Credits
 

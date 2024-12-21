@@ -6,7 +6,6 @@ use crate::plugins::numberblock::spawn_numberblock;
 use crate::plugins::player::components::player::{Displaying, Player, PlayerState};
 use crate::plugins::player::components::timers::DisplayTimer;
 use bevy::asset::{AssetServer, Assets};
-use bevy::audio::{AudioPlayer, PlaybackSettings, Volume};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{
     EventReader, EventWriter, Query, Res, ResMut, TextureAtlasLayout, Time, Timer, TimerMode,
@@ -66,10 +65,5 @@ pub fn player_display_system(
             event.0,
             Some(DISPLAY_TIME),
         );
-
-        // TODO: This should move to whatever system handles challenges/questions/problems
-        commands
-            .spawn(AudioPlayer::new(asset_server.load("sfx/correct.wav")))
-            .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.25)));
     }
 }
