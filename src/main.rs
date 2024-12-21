@@ -6,11 +6,13 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use leafwing_input_manager::prelude::InputManagerPlugin;
 
 mod animations;
+mod background_music;
 mod common;
 mod input_map;
 mod plugins;
 mod scenes;
 
+use crate::background_music::{restart_background_audio, start_background_audio};
 use crate::common::systems::lifespan::lifespan_tick_system;
 use crate::input_map::Action;
 use crate::plugins::animation::animation_plugin;
@@ -29,8 +31,8 @@ fn main() {
         }))
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
         .init_state::<GameState>()
-        .add_systems(Startup, setup)
-        .add_systems(Update, lifespan_tick_system)
+        .add_systems(Startup, (setup, start_background_audio))
+        .add_systems(Update, (lifespan_tick_system, restart_background_audio))
         .add_plugins(
             WorldInspectorPlugin::new().run_if(input_toggle_active(false, KeyCode::Backquote)),
         )

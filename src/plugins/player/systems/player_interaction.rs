@@ -4,8 +4,11 @@ use crate::plugins::chest::components::chest_state::ChestState;
 use crate::plugins::player::components::interaction_target::InteractionTarget;
 use crate::plugins::player::components::player::{Facing, Player, PlayerState};
 use crate::plugins::player::components::timers::InteractTimer;
+use bevy::audio::{AudioPlayer, PlaybackSettings};
 use bevy::ecs::query::QueryData;
-use bevy::prelude::{Entity, Query, Res, Time, Timer, TimerMode, Transform, With};
+use bevy::prelude::{
+    AssetServer, Commands, Entity, Query, Res, Time, Timer, TimerMode, Transform, With,
+};
 use leafwing_input_manager::prelude::ActionState;
 use std::time::Duration;
 
@@ -31,6 +34,8 @@ pub fn player_interaction_system(
     mut query: Query<PlayerQuery, With<Player>>,
     mut chests: Query<ChestsQuery, With<Chest>>,
     time: Res<Time>,
+    mut commands: Commands,
+    asset_server: Res<AssetServer>,
 ) {
     let mut player_data = query.single_mut();
 
@@ -43,6 +48,9 @@ pub fn player_interaction_system(
                     return;
                 };
                 *chest_state = ChestState::Opening;
+                commands
+                    .spawn(AudioPlayer::new(asset_server.load("sfx/chest_open.wav")))
+                    .insert(PlaybackSettings::DESPAWN);
             }
         }
         return;
