@@ -1,6 +1,6 @@
 use crate::animations::animation::Animation;
-use crate::common_components::animation_timer::AnimationTimer;
-use crate::common_components::obstacle::Obstacle;
+use crate::common::components::animation_timer::AnimationTimer;
+use crate::common::components::obstacle::Obstacle;
 use crate::plugins::chest::components::chest_state::ChestState;
 use bevy::prelude::Component;
 

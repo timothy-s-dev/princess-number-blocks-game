@@ -1,6 +1,6 @@
 use crate::animations::animation::Animation;
 use crate::animations::chest_animations;
-use crate::common_components::animation_timer::AnimationTimer;
+use crate::common::components::animation_timer::AnimationTimer;
 use crate::plugins::animation::AnimationFinishedEvent;
 use crate::plugins::chest::components::chest::Chest;
 use crate::plugins::chest::components::chest_state::ChestState;

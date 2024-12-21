@@ -2,10 +2,11 @@ use crate::plugins::chest::components::chest::Chest;
 use crate::plugins::chest::systems::chest_animation::chest_animation_change_system;
 use crate::scenes::GameState;
 use bevy::app::App;
-use bevy::math::{UVec2, Vec2};
+use bevy::math::Vec2;
 use bevy::prelude::{
-    default, in_state, ChildBuild, ChildBuilder, Event, Handle, Image, IntoSystemConfigs, Sprite,
-    TextureAtlas, TextureAtlasLayout, Transform, Update,
+    default, in_state, BuildChildren, ChildBuild, ChildBuilder, Event, Handle, Image,
+    IntoSystemConfigs, JustifyText, LineBreak, Sprite, Text2d, TextLayout, TextureAtlas,
+    TextureAtlasLayout, Transform, Update, Vec3,
 };
 
 pub mod components;
@@ -24,11 +25,6 @@ pub fn chest_plugin(app: &mut App) {
 pub struct ChestOpenedEvent(pub u32);
 #[derive(Event)]
 pub struct CloseChestsEvent;
-
-pub const CHEST_SPRITE_SHEET: &str = "chest.png";
-pub fn get_chest_texture_atlas_layout() -> TextureAtlasLayout {
-    TextureAtlasLayout::from_grid(UVec2::new(48, 32), 5, 6, None, None)
-}
 
 pub fn spawn_chest(
     parent: &mut ChildBuilder,
@@ -49,5 +45,12 @@ pub fn spawn_chest(
             custom_size: Some(Vec2::new(48., 32.)),
             ..default()
         })
-        .insert(Transform::from_xyz(x, y, 0.));
+        .insert(Transform::from_xyz(x, y, 0.))
+        .with_children(|builder| {
+            builder.spawn((
+                Text2d::new(contents.to_string()),
+                TextLayout::new(JustifyText::Center, LineBreak::NoWrap),
+                Transform::from_translation(Vec3::new(-8., 16., 1.)),
+            ));
+        });
 }

@@ -5,7 +5,7 @@ use crate::plugins::player::systems::player_display::player_display_system;
 use crate::plugins::player::systems::player_interaction::player_interaction_system;
 use crate::plugins::player::systems::player_movement::player_movement_system;
 use crate::scenes::GameState;
-use bevy::math::{UVec2, Vec2};
+use bevy::math::Vec2;
 use bevy::prelude::{
     default, in_state, App, ChildBuild, ChildBuilder, Handle, Image, IntoSystemConfigs, Sprite,
     TextureAtlas, TextureAtlasLayout, Update,
@@ -14,11 +14,6 @@ use leafwing_input_manager::InputManagerBundle;
 
 pub mod components;
 pub mod systems;
-
-pub const PLAYER_SPRITE_SHEET: &str = "princess.png";
-pub fn get_player_texture_atlas_layout() -> TextureAtlasLayout {
-    TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 9, None, None)
-}
 
 pub fn player_plugin(app: &mut App) {
     app.add_systems(

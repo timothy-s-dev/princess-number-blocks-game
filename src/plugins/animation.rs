@@ -1,5 +1,5 @@
 use crate::animations::animation::Animation;
-use crate::common_components::animation_timer::AnimationTimer;
+use crate::common::components::animation_timer::AnimationTimer;
 use bevy::app::{App, Update};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{Entity, Event, EventWriter, Query, Res, Sprite, Time};

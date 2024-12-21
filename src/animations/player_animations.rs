@@ -1,7 +1,14 @@
 use crate::animations::animation::Animation;
+use bevy::math::UVec2;
+use bevy::prelude::TextureAtlasLayout;
 
 // This file contains the definitions for the various animations used by the player entity.
-// The frame indexes here map onto the `princess.png` sprite sheet.
+
+pub const PLAYER_SPRITE_SHEET: &str = "princess.png";
+
+pub fn get_player_texture_atlas_layout() -> TextureAtlasLayout {
+    TextureAtlasLayout::from_grid(UVec2::splat(24), 8, 9, None, None)
+}
 
 pub const IDLE_EAST: Animation = Animation::from_single_frame(32);
 pub const IDLE_NORTH: Animation = Animation::from_single_frame(33);

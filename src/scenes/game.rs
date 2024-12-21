@@ -1,7 +1,9 @@
 use super::{despawn_screen, GameState};
-use crate::common_components::obstacle::Obstacle;
-use crate::plugins::chest::{get_chest_texture_atlas_layout, spawn_chest, CHEST_SPRITE_SHEET};
-use crate::plugins::player::{get_player_texture_atlas_layout, spawn_player, PLAYER_SPRITE_SHEET};
+use crate::animations::chest_animations::{get_chest_texture_atlas_layout, CHEST_SPRITE_SHEET};
+use crate::animations::player_animations::{get_player_texture_atlas_layout, PLAYER_SPRITE_SHEET};
+use crate::common::components::obstacle::Obstacle;
+use crate::plugins::chest::spawn_chest;
+use crate::plugins::player::spawn_player;
 use bevy::prelude::*;
 
 pub fn game_plugin(app: &mut App) {
@@ -40,22 +42,17 @@ fn setup(
                 spawn_obstacle(parent, &asset_server, -640. + 16., 32. * y as f32 + 16.);
                 spawn_obstacle(parent, &asset_server, 640. - 16., 32. * y as f32 + 16.);
             }
-            spawn_chest(
-                parent,
-                chest_texture.clone(),
-                chest_texture_atlas_layout.clone(),
-                100.,
-                100.,
-                1,
-            );
-            spawn_chest(
-                parent,
-                chest_texture.clone(),
-                chest_texture_atlas_layout.clone(),
-                200.,
-                200.,
-                1,
-            );
+
+            for chest in 0..10 {
+                spawn_chest(
+                    parent,
+                    chest_texture.clone(),
+                    chest_texture_atlas_layout.clone(),
+                    -440. + (216. * (chest % 5) as f32),
+                    160. - (400. * (chest / 5) as f32),
+                    chest + 1,
+                );
+            }
             spawn_player(
                 parent,
                 player_texture.clone(),

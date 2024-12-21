@@ -13,10 +13,10 @@
     - [ ] Auto-Open Chests On Proximity/Collision
     - [ ] Chest Positions (Grid/Scattered, Fixed/Random)
     - [ ] Obstacles (Off, Fixed, Random)
-- [ ] Chest Interaction
+- [x] Chest Interaction
     - [x] Chest Animation
     - [x] Player Animation
-    - [ ] Display Contents
+    - [x] Display Contents
 - [ ] Challenge
     - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD

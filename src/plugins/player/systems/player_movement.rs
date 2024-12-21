@@ -1,4 +1,4 @@
-use crate::common_components::obstacle::Obstacle;
+use crate::common::components::obstacle::Obstacle;
 use crate::input_map::Action;
 use crate::plugins::player::components::player::{Facing, Player, PlayerState};
 use bevy::math::bounding::{Aabb2d, IntersectsVolume};

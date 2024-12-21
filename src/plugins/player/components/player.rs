@@ -1,5 +1,5 @@
 use crate::animations::animation::Animation;
-use crate::common_components::animation_timer::AnimationTimer;
+use crate::common::components::animation_timer::AnimationTimer;
 use crate::plugins::player::components::interaction_target::InteractionTarget;
 use crate::plugins::player::components::timers::{DisplayTimer, InteractTimer};
 use bevy::prelude::{Component, Vec2, Vec3, Vec3Swizzles};

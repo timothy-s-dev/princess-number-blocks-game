@@ -88,7 +88,7 @@ pub fn player_interaction_system(
 
     // Update components on player to initiate interaction
     player_data.interact_target.0 = Some(nearest_chest);
-    player_data.interact_timer.0 = Timer::new(Duration::from_secs(1), TimerMode::Once);
+    player_data.interact_timer.0 = Timer::new(Duration::from_millis(500), TimerMode::Once);
     *player_data.state = PlayerState::Interacting;
     // Update facing based on direction to nearest chest
     let new_facing = Facing::from_vec3(offset);

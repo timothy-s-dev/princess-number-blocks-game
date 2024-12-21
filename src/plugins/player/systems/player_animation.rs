@@ -1,6 +1,6 @@
 use crate::animations::animation::Animation;
 use crate::animations::player_animations;
-use crate::common_components::animation_timer::AnimationTimer;
+use crate::common::components::animation_timer::AnimationTimer;
 use crate::plugins::player::components::player::{Facing, Player, PlayerState};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{Changed, Or, Query, Sprite, Timer, TimerMode, With};

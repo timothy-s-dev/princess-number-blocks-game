@@ -6,11 +6,12 @@ use bevy_inspector_egui::quick::WorldInspectorPlugin;
 use leafwing_input_manager::prelude::InputManagerPlugin;
 
 mod animations;
-mod common_components;
+mod common;
 mod input_map;
 mod plugins;
 mod scenes;
 
+use crate::common::systems::lifespan::lifespan_tick_system;
 use crate::input_map::Action;
 use crate::plugins::animation::animation_plugin;
 use crate::plugins::chest::chest_plugin;
@@ -29,6 +30,7 @@ fn main() {
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
         .init_state::<GameState>()
         .add_systems(Startup, setup)
+        .add_systems(Update, lifespan_tick_system)
         .add_plugins(
             WorldInspectorPlugin::new().run_if(input_toggle_active(false, KeyCode::Backquote)),
         )
