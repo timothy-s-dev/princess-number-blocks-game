@@ -21,9 +21,9 @@
     - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD
         - [ ] Complete and reset when correct chest is opened
-- [ ] Audio
-    - [ ] Background Music
-    - [ ] Sound Effects
+- [x] Audio
+    - [x] Background Music
+    - [x] Sound Effects
 - Known Issues
     - [ ] Numberblocks are not child'd to the scene entity, and may not be removed
 
