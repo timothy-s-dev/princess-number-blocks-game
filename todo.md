@@ -27,6 +27,10 @@
 - Known Issues
     - [ ] Numberblocks are not child'd to the scene entity, and may not be removed
 - [ ] Android Build
+- [ ] Polish
+    - [ ] Finalize splashscreen
+    - [ ] Main Menu Background
+    - [ ] Gameplay Background
 
 # Credits
 
