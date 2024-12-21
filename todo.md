@@ -8,7 +8,7 @@
 - [x] Obstacles
 - [x] Chests
     - [x] Interactable
-    - [ ] Number Label?
+    - [x] Number Label
 - [ ] Settings
     - [ ] Auto-Open Chests On Proximity/Collision
     - [ ] Chest Positions (Grid/Scattered, Fixed/Random)
@@ -21,6 +21,11 @@
     - [ ] Randomly generate (random solution, 2-10, two random numbers to sum)
     - [ ] Display/HUD
         - [ ] Complete and reset when correct chest is opened
+- [ ] Audio
+    - [ ] Background Music
+    - [ ] Sound Effects
+- Known Issues
+    - [ ] Numberblocks are child'd to the scene entity, and may not be removed
 
 # Credits
 
