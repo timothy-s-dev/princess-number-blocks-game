@@ -2,9 +2,11 @@ use crate::animations::animation::Animation;
 use crate::animations::numberblock_animations;
 use crate::common::components::animation_timer::AnimationTimer;
 use crate::common::components::life_timer::LifeTimer;
+use bevy::hierarchy::{BuildChildren, ChildBuild};
+use bevy::math::Vec3;
 use bevy::prelude::{
-    default, Commands, Component, Entity, Handle, Image, Sprite, TextureAtlas, TextureAtlasLayout,
-    Timer, TimerMode, Transform,
+    default, Commands, Component, Entity, Handle, Image, JustifyText, LineBreak, Sprite, Text2d,
+    TextLayout, TextureAtlas, TextureAtlasLayout, Timer, TimerMode, Transform,
 };
 use std::time::Duration;
 
@@ -48,7 +50,14 @@ pub fn spawn_numberblock(
             ..default()
         })
         .insert(Transform::from_xyz(x, y, 100.))
-        .insert(get_numberblock_animation(value));
+        .insert(get_numberblock_animation(value))
+        .with_children(|builder| {
+            builder.spawn((
+                Text2d::new(value.to_string()),
+                TextLayout::new(JustifyText::Center, LineBreak::NoWrap),
+                Transform::from_translation(Vec3::new(0., (16. - 160.) + 32. * value as f32, 1.)),
+            ));
+        });
     if let Some(lifetime) = lifetime {
         entity.insert(LifeTimer {
             timer: Timer::new(Duration::from_millis(lifetime), TimerMode::Repeating),

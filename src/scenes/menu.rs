@@ -86,7 +86,7 @@ fn menu_setup(mut menu_state: ResMut<NextState<MenuState>>) {
     menu_state.set(MenuState::Main);
 }
 
-fn main_menu_setup(mut commands: Commands) {
+fn main_menu_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
     // Common style for all buttons on the screen
     let button_node = Node {
         width: Val::Px(300.0),
@@ -101,6 +101,8 @@ fn main_menu_setup(mut commands: Commands) {
         ..default()
     };
 
+    let bg_texture = asset_server.load("menu_bg.png");
+
     commands
         .spawn((
             Node {
@@ -114,25 +116,29 @@ fn main_menu_setup(mut commands: Commands) {
         ))
         .with_children(|parent| {
             parent
-                .spawn((
-                    Node {
-                        flex_direction: FlexDirection::Column,
-                        align_items: AlignItems::Center,
-                        ..default()
-                    },
-                    BackgroundColor(CRIMSON.into()),
-                ))
+                .spawn(Sprite {
+                    image: bg_texture.clone(),
+                    custom_size: Some(Vec2::new(1280., 720.)),
+                    ..default()
+                })
+                .insert(Transform::from_xyz(-1280. / 2., -720. / 2., -100.));
+            parent
+                .spawn((Node {
+                    flex_direction: FlexDirection::Column,
+                    align_items: AlignItems::Center,
+                    ..default()
+                },))
                 .with_children(|parent| {
                     // Display the game name
                     parent.spawn((
-                        Text::new("Princess Numberblocks Search"),
+                        Text::new("Numberblocks Princess"),
                         TextFont {
                             font_size: 67.0,
                             ..default()
                         },
                         TextColor(TEXT_COLOR),
                         Node {
-                            margin: UiRect::all(Val::Px(50.0)),
+                            margin: UiRect::all(Val::Px(25.0)),
                             ..default()
                         },
                     ));

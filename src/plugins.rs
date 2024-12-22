@@ -1,4 +1,4 @@
 pub mod animation;
 pub mod chest;
-mod numberblock;
+pub mod numberblock;
 pub mod player;

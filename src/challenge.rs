@@ -1,8 +1,18 @@
+use crate::animations::numberblock_animations::{
+    get_numberblock_texture_atlas_layout, NUMBERBLOCK_SPRITE_SHEET,
+};
 use crate::plugins::chest::ChestOpenedEvent;
-use bevy::asset::AssetServer;
+use crate::plugins::numberblock::spawn_numberblock;
+use bevy::asset::{AssetServer, Assets};
 use bevy::audio::{AudioPlayer, PlaybackSettings, Volume};
-use bevy::prelude::{debug, Commands, EventReader, Res, ResMut, Resource};
+use bevy::prelude::{
+    Commands, Component, DespawnRecursiveExt, DetectChanges, Entity, EventReader, Query, Res,
+    ResMut, Resource, TextureAtlasLayout, With,
+};
 use rand::Rng;
+
+#[derive(Component)]
+pub struct ChallengeHud;
 
 #[derive(Resource)]
 pub struct Challenge {
@@ -16,8 +26,7 @@ impl Challenge {
         let sum = rand::thread_rng().gen_range(2..10);
         let addend1 = rand::thread_rng().gen_range(1..sum);
         let addend2 = sum - addend1;
-        // TODO: Remove once HUD is done
-        debug!("Challenge: {} + {} = {}", addend1, addend2, sum);
+
         Self {
             addend1,
             addend2,
@@ -32,7 +41,7 @@ pub fn initialize_challenge_system(mut commands: Commands) {
 
 pub fn monitor_challenge_system(
     mut ev_chest_opened: EventReader<ChestOpenedEvent>,
-    mut challenge: ResMut<Challenge>,
+    challenge: Res<Challenge>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
 ) {
@@ -41,11 +50,50 @@ pub fn monitor_challenge_system(
             commands
                 .spawn(AudioPlayer::new(asset_server.load("sfx/correct.wav")))
                 .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.25)));
-            *challenge = Challenge::randomized();
         } else {
             commands
                 .spawn(AudioPlayer::new(asset_server.load("sfx/wrong.wav")))
-                .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.25)));
+                .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.5)));
         }
+    }
+}
+
+pub fn challenge_hud_system(
+    challenge: Res<Challenge>,
+    mut commands: Commands,
+    hud_entities: Query<Entity, With<ChallengeHud>>,
+    asset_server: Res<AssetServer>,
+    mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+) {
+    if challenge.is_changed() {
+        for entity in hud_entities.iter() {
+            commands.entity(entity).despawn_recursive();
+        }
+
+        let texture = asset_server.load(NUMBERBLOCK_SPRITE_SHEET);
+        let layout = get_numberblock_texture_atlas_layout();
+        let texture_atlas_layout = texture_atlas_layouts.add(layout);
+
+        let addend1_block = spawn_numberblock(
+            &mut commands,
+            texture.clone(),
+            texture_atlas_layout.clone(),
+            -600.,
+            -200.,
+            challenge.addend1,
+            None,
+        );
+        commands.entity(addend1_block).insert(ChallengeHud);
+
+        let addend2_block = spawn_numberblock(
+            &mut commands,
+            texture.clone(),
+            texture_atlas_layout.clone(),
+            -550.,
+            -200.,
+            challenge.addend2,
+            None,
+        );
+        commands.entity(addend2_block).insert(ChallengeHud);
     }
 }

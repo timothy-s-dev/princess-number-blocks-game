@@ -13,24 +13,27 @@
     - [ ] Auto-Open Chests On Proximity/Collision
     - [ ] Chest Positions (Grid/Scattered, Fixed/Random)
     - [ ] Obstacles (Off, Fixed, Random)
+    - [ ] Numberlings (On, Off)
 - [x] Chest Interaction
     - [x] Chest Animation
     - [x] Player Animation
     - [x] Display Contents
-- [ ] Challenge
+- [x] Challenge
     - [x] Randomly generate (random solution, 2-10, two random numbers to sum)
-    - [ ] Display/HUD
+    - [x] Display/HUD
     - [x] Complete and reset when correct chest is opened
 - [x] Audio
     - [x] Background Music
     - [x] Sound Effects
 - Known Issues
+    - [ ] Can't return to menu from game
     - [ ] Numberblocks are not child'd to the scene entity, and may not be removed
 - [ ] Android Build
-- [ ] Polish
-    - [ ] Finalize splashscreen
-    - [ ] Main Menu Background
-    - [ ] Gameplay Background
+- [x] Polish
+    - [x] Finalize splashscreen
+    - [x] Main Menu Background
+    - [x] Gameplay Background
+    - [x] Numberlings above Numberblocks
 
 # Credits
 

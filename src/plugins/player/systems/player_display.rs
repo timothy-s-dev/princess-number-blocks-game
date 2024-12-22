@@ -1,6 +1,7 @@
 use crate::animations::numberblock_animations::{
     get_numberblock_texture_atlas_layout, NUMBERBLOCK_SPRITE_SHEET,
 };
+use crate::challenge::Challenge;
 use crate::plugins::chest::{ChestOpenedEvent, CloseChestsEvent};
 use crate::plugins::numberblock::spawn_numberblock;
 use crate::plugins::player::components::player::{Displaying, Player, PlayerState};
@@ -34,12 +35,16 @@ pub fn player_display_system(
     mut commands: bevy::prelude::Commands,
     asset_server: Res<AssetServer>,
     mut texture_atlas_layouts: ResMut<Assets<TextureAtlasLayout>>,
+    mut challenge: ResMut<Challenge>,
 ) {
     let mut player_data = query.single_mut();
 
     if *player_data.state == PlayerState::Display {
         player_data.display_timer.0.tick(time.delta());
         if player_data.display_timer.0.finished() {
+            if player_data.displaying.0 == challenge.sum {
+                *challenge = Challenge::randomized();
+            }
             *player_data.state = PlayerState::Idle;
             player_data.displaying.0 = 0;
             ev_close_chests.send(CloseChestsEvent);
