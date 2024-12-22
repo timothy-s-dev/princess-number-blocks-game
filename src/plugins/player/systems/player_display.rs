@@ -27,6 +27,7 @@ pub struct PlayerQuery {
 
 /// This system monitors the ChestOpenedEvent stream and the state on the player to shift the player
 /// into and out of the Display state, and updates the value to be displayed accordingly.
+#[allow(clippy::too_many_arguments)] // TODO: This should probably be split into multiple systems
 pub fn player_display_system(
     mut query: Query<PlayerQuery, With<Player>>,
     mut ev_chest_opened: EventReader<ChestOpenedEvent>,
