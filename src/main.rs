@@ -1,3 +1,4 @@
+use bevy::asset::AssetMetaCheck;
 use bevy::input::common_conditions::input_toggle_active;
 use bevy::log::LogPlugin;
 use bevy::prelude::*;
@@ -25,11 +26,19 @@ const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
 
 fn main() {
     App::new()
-        .add_plugins(DefaultPlugins.set(LogPlugin {
-            filter: "info,wgpu_core=warn,wgpu_hal=warn,princess_number_blocks_game=debug".into(),
-            level: bevy::log::Level::DEBUG,
-            custom_layer: |_| None,
-        }))
+        .add_plugins(
+            DefaultPlugins
+                .set(LogPlugin {
+                    filter: "info,wgpu_core=warn,wgpu_hal=warn,princess_number_blocks_game=debug"
+                        .into(),
+                    level: bevy::log::Level::DEBUG,
+                    custom_layer: |_| None,
+                })
+                .set(AssetPlugin {
+                    meta_check: AssetMetaCheck::Never,
+                    ..default()
+                }),
+        )
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
         .init_state::<GameState>()
         .add_systems(Startup, (setup, start_background_audio))
