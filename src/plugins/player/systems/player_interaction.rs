@@ -7,7 +7,8 @@ use crate::plugins::player::components::timers::InteractTimer;
 use bevy::audio::{AudioPlayer, PlaybackSettings};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{
-    AssetServer, Commands, Entity, Query, Res, Time, Timer, TimerMode, Transform, With,
+    AssetServer, Commands, Entity, Gamepad, GamepadButton, Query, Res, Time, Timer, TimerMode,
+    Transform, With,
 };
 use leafwing_input_manager::prelude::ActionState;
 use std::time::Duration;
@@ -36,6 +37,7 @@ pub fn player_interaction_system(
     time: Res<Time>,
     mut commands: Commands,
     asset_server: Res<AssetServer>,
+    gamepads: Query<&Gamepad>,
 ) {
     let mut player_data = query.single_mut();
 
@@ -56,7 +58,14 @@ pub fn player_interaction_system(
         return;
     }
 
-    if !player_data.action_state.just_pressed(&Action::Interact) {
+    let mut gamepad_interacting = false;
+    for gamepad in &gamepads {
+        if gamepad.just_pressed(GamepadButton::South) {
+            gamepad_interacting = true;
+        }
+    }
+
+    if !gamepad_interacting && !player_data.action_state.just_pressed(&Action::Interact) {
         return;
     }
 

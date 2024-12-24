@@ -2,7 +2,8 @@ use crate::common::components::obstacle::Obstacle;
 use crate::input_map::Action;
 use crate::plugins::player::components::player::{Facing, Player, PlayerState};
 use bevy::math::bounding::{Aabb2d, IntersectsVolume};
-use bevy::prelude::{Query, Res, Sprite, Time, Transform, Vec3Swizzles, With, Without};
+use bevy::math::Vec2;
+use bevy::prelude::{Gamepad, Query, Res, Sprite, Time, Transform, Vec3Swizzles, With, Without};
 use leafwing_input_manager::prelude::ActionState;
 
 const MOVE_SPEED: f32 = 150.;
@@ -25,6 +26,7 @@ pub fn player_movement_system(
     mut query: Query<PlayerMovementQuery, With<Player>>,
     obstacles: Query<ObstaclesQuery, ObstaclesFilter>,
     time: Res<Time>,
+    gamepads: Query<&Gamepad>,
 ) {
     let (action_state, mut transform, mut player_state, mut facing, sprite) = query.single_mut();
 
@@ -33,8 +35,16 @@ pub fn player_movement_system(
         return;
     }
 
-    let move_vec = action_state.axis_pair(&Action::Move);
-    let is_moving = move_vec.length_squared() > 0.;
+    let mut move_vec = action_state.axis_pair(&Action::Move);
+
+    for gamepad in &gamepads {
+        let gamepad_axis = gamepad.left_stick();
+        if gamepad_axis != Vec2::ZERO {
+            move_vec = gamepad_axis;
+        }
+    }
+
+    let is_moving = move_vec.length_squared() > 0.1;
 
     // If we were walking, and we've stopped moving, change back to idle state
     if !is_moving && *player_state == PlayerState::Walking {
