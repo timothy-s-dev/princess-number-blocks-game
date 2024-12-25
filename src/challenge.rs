@@ -4,11 +4,11 @@ use crate::animations::numberblock_animations::{
 use crate::plugins::chest::ChestOpenedEvent;
 use crate::plugins::numberblock::spawn_numberblock;
 use bevy::asset::{AssetServer, Assets};
-use bevy::audio::{AudioPlayer, PlaybackSettings, Volume};
 use bevy::prelude::{
     Commands, Component, DespawnRecursiveExt, DetectChanges, Entity, EventReader, Query, Res,
     ResMut, Resource, TextureAtlasLayout, With,
 };
+use bevy_kira_audio::prelude::*;
 use rand::Rng;
 
 #[derive(Component)]
@@ -42,18 +42,18 @@ pub fn initialize_challenge_system(mut commands: Commands) {
 pub fn monitor_challenge_system(
     mut ev_chest_opened: EventReader<ChestOpenedEvent>,
     challenge: Res<Challenge>,
-    mut commands: Commands,
     asset_server: Res<AssetServer>,
+    audio: Res<Audio>,
 ) {
     for event in ev_chest_opened.read() {
         if challenge.sum == event.0 {
-            commands
-                .spawn(AudioPlayer::new(asset_server.load("sfx/correct.wav")))
-                .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.25)));
+            audio
+                .play(asset_server.load("sfx/correct.wav"))
+                .with_volume(0.25);
         } else {
-            commands
-                .spawn(AudioPlayer::new(asset_server.load("sfx/wrong.wav")))
-                .insert(PlaybackSettings::DESPAWN.with_volume(Volume::new(0.5)));
+            audio
+                .play(asset_server.load("sfx/wrong.wav"))
+                .with_volume(0.5);
         }
     }
 }

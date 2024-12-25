@@ -1,8 +1,5 @@
-use bevy::audio::Volume;
-use bevy::prelude::{
-    debug, AssetServer, AudioPlayer, Commands, Component, Entity, PlaybackSettings, Query, Res,
-    With, Without,
-};
+use bevy::prelude::{AssetServer, Handle, Res, ResMut, Resource};
+use bevy_kira_audio::prelude::*;
 use rand::Rng;
 
 const ALL_ASSETS: &[&str] = &[
@@ -18,30 +15,33 @@ fn get_random_song() -> &'static str {
     ALL_ASSETS[rand::thread_rng().gen_range(0..ALL_ASSETS.len())]
 }
 
-#[derive(Component)]
-pub struct BackgroundAudio;
+#[derive(Resource)]
+pub struct BackgroundAudio(pub Handle<AudioInstance>);
 
-pub fn start_background_audio(asset_server: Res<AssetServer>, mut commands: Commands) {
+pub fn start_background_audio(
+    asset_server: Res<AssetServer>,
+    mut background_audio: ResMut<BackgroundAudio>,
+    audio: Res<Audio>,
+) {
     let song = get_random_song();
-    debug!("Now playing: {}", song);
-    commands
-        .spawn(BackgroundAudio)
-        .insert(AudioPlayer::new(asset_server.load(song)))
-        .insert(PlaybackSettings::REMOVE.with_volume(Volume::new(0.25)));
+    background_audio.0 = audio
+        .play(asset_server.load(song))
+        .with_volume(0.25)
+        .handle();
 }
 
 pub fn restart_background_audio(
-    audio_player: Query<Entity, (With<BackgroundAudio>, Without<AudioPlayer>)>,
     asset_server: Res<AssetServer>,
-    mut commands: Commands,
+    mut background_audio: ResMut<BackgroundAudio>,
+    audio: Res<Audio>,
 ) {
-    let Ok(audio_player) = audio_player.get_single() else {
+    let status = audio.state(&background_audio.0);
+    if status != PlaybackState::Stopped {
         return;
-    };
+    }
     let song = get_random_song();
-    debug!("Now playing: {}", song);
-    commands
-        .entity(audio_player)
-        .insert(AudioPlayer::new(asset_server.load(song)))
-        .insert(PlaybackSettings::REMOVE.with_volume(Volume::new(0.25)));
+    background_audio.0 = audio
+        .play(asset_server.load(song))
+        .with_volume(0.25)
+        .handle();
 }

@@ -5,12 +5,11 @@ use crate::plugins::animation::AnimationFinishedEvent;
 use crate::plugins::chest::components::chest::Chest;
 use crate::plugins::chest::components::chest_state::ChestState;
 use crate::plugins::chest::{ChestOpenedEvent, CloseChestsEvent};
-use bevy::audio::{AudioPlayer, PlaybackSettings};
 use bevy::ecs::query::QueryData;
 use bevy::prelude::{
-    AssetServer, Commands, DetectChanges, EventReader, EventWriter, Query, Res, Sprite, Timer,
-    TimerMode,
+    AssetServer, DetectChanges, EventReader, EventWriter, Query, Res, Sprite, Timer, TimerMode,
 };
+use bevy_kira_audio::prelude::*;
 use std::time::Duration;
 
 #[derive(QueryData)]
@@ -31,15 +30,13 @@ pub fn chest_animation_change_system(
     mut ev_animation_finished: EventReader<AnimationFinishedEvent>,
     mut ev_chest_opened: EventWriter<ChestOpenedEvent>,
     mut ev_close_chests: EventReader<CloseChestsEvent>,
-    mut commands: Commands,
     asset_server: Res<AssetServer>,
+    audio: Res<Audio>,
 ) {
     let should_close_chests = !ev_close_chests.is_empty();
     if should_close_chests {
         ev_close_chests.clear();
-        commands
-            .spawn(AudioPlayer::new(asset_server.load("sfx/chest_close.wav")))
-            .insert(PlaybackSettings::DESPAWN);
+        audio.play(asset_server.load("sfx/chest_close.wav"));
     }
     for mut query_data in chests.iter_mut() {
         if query_data.state.is_changed() {

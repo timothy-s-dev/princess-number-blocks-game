@@ -14,12 +14,13 @@ mod input_map;
 mod plugins;
 mod scenes;
 
-use crate::background_music::{restart_background_audio, start_background_audio};
+use crate::background_music::{restart_background_audio, start_background_audio, BackgroundAudio};
 use crate::common::systems::lifespan::lifespan_tick_system;
 use crate::input_map::Action;
 use crate::plugins::animation::animation_plugin;
 use crate::plugins::chest::chest_plugin;
 use crate::plugins::player::player_plugin;
+use bevy_kira_audio::prelude::*;
 use scenes::*;
 
 const TEXT_COLOR: Color = Color::srgb(0.9, 0.9, 0.9);
@@ -39,7 +40,9 @@ fn main() {
                     ..default()
                 }),
         )
+        .add_plugins(AudioPlugin)
         .insert_resource(ClearColor(Color::srgb(0.30, 0.80, 0.93)))
+        .insert_resource(BackgroundAudio(Default::default()))
         .init_state::<GameState>()
         .add_systems(Startup, (setup, start_background_audio))
         .add_systems(Update, (lifespan_tick_system, restart_background_audio))
